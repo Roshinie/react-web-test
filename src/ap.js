@@ -1,33 +1,34 @@
-import React, { Component } from 'react';
+import React from "react";
 import { ethers } from "ethers";
 
-const handleSubmit = (e) => {
-  console.log("Send request")
-  // fetch('https://jsonplaceholder.typicode.com/posts', {
-  //    method: 'POST',
-  //    body: JSON.stringify({
-  //       currentAddress: this.currentAddress,
-  //       signer: this.signer
-  //    }),
-  //    headers: {
-  //       'Content-type': 'application/json; charset=UTF-8',
-  //    },
-  // })
-  //    .then((res) => res.json())
-  //    .catch((err) => {
-  //       console.log(err.message);
-  //    });
-};
 
-class App extends Component {
-constructor(props) {
+class App extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       currentAddress: null,
-      signer: null,
-      provider: null
+      signer: null
     }
   }
+
+  handleSubmit = (e) => {
+    console.log("Send request")
+    // fetch('https://jsonplaceholder.typicode.com/posts', {
+    //    method: 'POST',
+    //    body: JSON.stringify({
+    //       currentAddress: this.currentAddress,
+    //       signer: this.signer
+    //    }),
+    //    headers: {
+    //       'Content-type': 'application/json; charset=UTF-8',
+    //    },
+    // })
+    //    .then((res) => res.json())
+    //    .catch((err) => {
+    //       console.log(err.message);
+    //    });
+ };
+
 
   async init() {
     if (window.ethereum) {
@@ -39,18 +40,15 @@ constructor(props) {
       console.log(this.provider)
       console.log(this.signer)
       this.setState({ currentAddress: await this.signer.getAddress() }); // Set the current address
-      this.setState({ signer: this.signer }); 
-      this.setState({ provider: this.provider }); 
     } else {
       alert("No wallet detected"); // No wallet detected
     }
   }
-
   componentDidMount() {
     this.init();
   }
 
-render() {
+  render() {
     return (
       <div>
         <div class="jumbotron d-flex align-items-center">
@@ -58,11 +56,12 @@ render() {
             <h1>Account Details</h1>
             <p>{this.state.currentAddress}</p>
             <h1>Mint a Token</h1>
-            <button type="submit" onClick={handleSubmit}>Mint</button>
+            <button onClick={this.handleSubmit()}>Mint</button>
           </div>
         </div>
       </div>
     );
   }
 }
+
 export default App;
