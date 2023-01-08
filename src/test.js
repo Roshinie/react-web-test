@@ -1,16 +1,32 @@
 import React, { Component } from 'react';
 import { ethers } from "ethers";
 
+const handleSubmit = (e) => {
+  console.log("Send request")
+  console.log(this.currentAddress)
+  fetch('localhost:8080/mint-nft', {
+     method: 'POST',
+     body: JSON.stringify({
+        name: "Roshinie"
+     }),
+     headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+     },
+  })
+     .then((res) => res.json())
+     .catch((err) => {
+        console.log(err.message);
+     });
+};
+
 class App extends Component {
-  constructor(props) {
+constructor(props) {
     super(props);
     this.state = {
       currentAddress: null,
       signer: null,
       provider: null
     }
-
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
   
   async init() {
@@ -34,27 +50,6 @@ class App extends Component {
     this.init();
   }
 
-  handleSubmit(e) {
-    console.log("Send request")
-    console.log(this.state.currentAddress)
-    console.log(this.state.signer)
-    console.log(typeof(this.state.signer))
-    const sig = this.state.signer;
-      fetch('http://localhost:8080/mint-nft', {
-         method: 'POST',
-         body: JSON.stringify({
-            signer: sig
-         }),
-         headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-         },
-      })
-         .then((res) => res.json())
-         .catch((err) => {
-            console.log(err.message);
-         });
-  }
-
 render() {
     return (
       <div>
@@ -63,7 +58,7 @@ render() {
             <h1>Account Details</h1>
             <p>{this.state.currentAddress}</p>
             <h1>Mint a Token</h1>
-            <button type="submit" onClick={this.handleSubmit}>Mint</button>
+            <button type="submit" onClick={handleSubmit}>Mint</button>
           </div>
         </div>
       </div>
